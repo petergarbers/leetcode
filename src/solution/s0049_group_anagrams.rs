@@ -5,21 +5,19 @@ pub struct Solution {}
 
 impl Solution {
     pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
-        // let mut word_sets: Vec<HashSet<char>> = Vec::new();
-        let found_words: HashMap<String, Vec<String>> = HashMap::new();
+        let mut found_words: HashMap<Vec<char>, Vec<String>> = HashMap::new();
         for str in strs {
-            let word_set: HashSet<char> = str.chars().collect();
-
-            // if found_words.contains_key(word_set) {
-
-            // }
-
-            // found_words.insert(str.to_string(), vec![str.to_string()]);
+            let mut word_vec: Vec<char> = str.chars().collect();
+            word_vec.sort();
+            
+            if found_words.contains_key(&word_vec) {
+                let words_found_for_sequence = found_words.get_mut(&word_vec).unwrap();
+                words_found_for_sequence.push(str);
+            } else {
+                found_words.insert(word_vec, vec![str]);
+            }
         }
-
-        // println!("{:?}", word_sets);
-
-        vec![vec!["woof".to_string()]]
+        found_words.into_values().collect()
     }
 }
 
@@ -27,27 +25,15 @@ impl Solution {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashSet;
-
     use super::*;
-
     macro_rules! vec_of_strings {
         ($($x:expr),*) => (vec![$($x.to_string()),*]);
     }
 
     #[test]
     fn test_49() {
-        let woof: HashSet<char> = "woof".chars().collect();
-        let moo: HashMap<HashSet<char>, Vec<String>> = HashMap::new();
-
-        let unsorted: String = "Yourmom".to_string();
-        let mut chars: Vec<char> = unsorted.chars().collect(); 
-        // chars.sort_by(|a,b| b.cmp(a))
-        println!("{:?}",chars.sort_by(|a, b| b.cmp(a)));
-
         let strs = vec_of_strings!["eat","tea","tan","ate","nat","bat"];
-        // let result = vec![vec_of_strings!["bat"], vec_of_strings!["nat", "tan"], vec_of_strings!["ate", "eat", "tea"]];
-        Solution::group_anagrams(strs);
+        let result = vec![vec_of_strings!["bat"], vec_of_strings!["nat", "tan"], vec_of_strings!["ate", "eat", "tea"]];
         // assert_eq!(result, Solution::group_anagrams(strs));
     }
 }
