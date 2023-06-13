@@ -1,9 +1,9 @@
-pub struct Solution {}
 use crate::util::tree::{to_tree, TreeNode};
 
 use std::cell::RefCell;
 use std::rc::Rc;
 
+pub struct Solution {}
 impl Solution {
     pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
         root.map(|node| {
